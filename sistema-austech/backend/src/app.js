@@ -18,12 +18,24 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  origin: [
+    process.env.FRONTEND_URL || "http://localhost:5173",
+    "https://sistema-austech-frontend.onrender.com"
+  ],
   credentials: true
 }));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
+
+// Ruta raíz
+app.get('/', (req, res) => {
+  res.json({
+    message: 'API Sistema Austech',
+    status: 'OK',
+    version: '1.0.0'
+  });
+});
 
 // Rutas
 app.use('/api/auth', authRoutes);
